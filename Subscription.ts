@@ -7,8 +7,9 @@ export class Subscription implements SubscriptionType {
   }
   watch(showName: string) {
     const showsArray = this.streamingService.shows;
+    console.log(showsArray);
     for (let i = 0; i < this.streamingService.shows.length; i++) {
-      if (showsArray[i] === showName) {
+      if (showsArray[i].name === showName) {
         console.log(`Playing ${showName}`);
         return undefined;
       }
