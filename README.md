@@ -1,2 +1,3 @@
 # incora-test
-Testing task for Incora Coding Camp
+
+Open test.ts to see if a program works

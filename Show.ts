@@ -1,11 +1,11 @@
-import { ShowType } from "./types";
+import { ShowType, GenreType } from "./types";
 export class Show implements ShowType {
   name: string;
-  genre: string;
+  genre: GenreType;
   releaseDate: Date;
   duration: number;
 
-  constructor(name: string, genre: string, releaseDate: Date, duration: number) {
+  constructor(name: string, genre: GenreType, releaseDate: Date, duration: number) {
     this.name = name;
     this.genre = genre;
     this.releaseDate = releaseDate;

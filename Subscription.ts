@@ -1,4 +1,4 @@
-import { SubscriptionType, StreamingServiceType } from "./types";
+import { SubscriptionType, StreamingServiceType, GenreType } from "./types";
 
 export class Subscription implements SubscriptionType {
   streamingService: StreamingServiceType;
@@ -8,12 +8,12 @@ export class Subscription implements SubscriptionType {
   watch(showName: string) {
     const showsArray = this.streamingService.shows;
     for (let i = 0; i < this.streamingService.shows.length; i++) {
-      if (showsArray[i].name === showName) {
-        alert(`Playing ${showName}`);
-        break;
+      if (showsArray[i] === showName) {
+        console.log(`Playing ${showName}`);
+        return undefined;
       }
       if (i === showsArray.length - 1) {
-        alert("This show is absent");
+        console.log("This show is absent");
       }
     }
   }
@@ -21,13 +21,13 @@ export class Subscription implements SubscriptionType {
     const thisYear = new Date().getFullYear();
 
     const mostViewedShows = this.streamingService
-      .getMostViewedShowsOfYear()
+      .getMostViewedShowsOfYear(thisYear)
       .sort((a, b) => a.getDuration() - b.getDuration());
     const randomShowIndex = Math.floor(Math.random() * mostViewedShows.length);
 
     return mostViewedShows[randomShowIndex];
   }
-  getRecommendationByGenre(genre: string) {
+  getRecommendationByGenre(genre: GenreType) {
     const mostViewedShows = this.streamingService
       .getMostViewedShowsOfGenre(genre)
       .sort((a, b) => a.getDuration() - b.getDuration());

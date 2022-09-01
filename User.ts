@@ -1,25 +1,44 @@
 import { UserType, StreamingServiceType } from "./types";
 
 export class User implements UserType {
-  subscriptions: Set<object>;
+  subscriptions: any[];
   constructor(subscriptions) {
     this.subscriptions = subscriptions;
   }
 
   subscribe(streamingService: StreamingServiceType) {
-    if (this.subscriptions.has(streamingService)) {
-      throw new Error("User aldready has this subscription");
-    } else {
-      this.subscriptions.add(streamingService);
+    let subscriptionIndex: boolean | undefined;
+
+    for (let i = 0; i < this.subscriptions.length; i++) {
+      const currentSub = this.subscriptions[i];
+      if (JSON.stringify(currentSub) === JSON.stringify(streamingService)) {
+        subscriptionIndex = true;
+      }
     }
+
+    if (subscriptionIndex) {
+      console.log("User aldready has this subscription");
+    } else {
+      this.subscriptions.push(streamingService);
+    }
+
     return this.subscriptions;
   }
 
   unsubscribe(streamingService: StreamingServiceType) {
-    if (this.subscriptions.has(streamingService)) {
-      this.subscriptions.delete(streamingService);
+    let subscriptionIndex: number | undefined;
+    for (let i = 0; i < this.subscriptions.length; i++) {
+      const currentSub = this.subscriptions[i];
+
+      if (JSON.stringify(currentSub) === JSON.stringify(streamingService)) {
+        subscriptionIndex = i;
+      }
+    }
+
+    if (subscriptionIndex !== undefined) {
+      this.subscriptions.splice(subscriptionIndex, 1);
     } else {
-      throw new Error("User doesn`t has this subscription");
+      console.log("User doesn`t has this subscription");
     }
     return this.subscriptions;
   }

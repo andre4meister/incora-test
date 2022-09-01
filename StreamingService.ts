@@ -1,4 +1,4 @@
-import { StreamingServiceType, ShowType } from "./types";
+import { StreamingServiceType, ShowType, AnyShowType } from "./types";
 
 export class StreamingService implements StreamingServiceType {
   name;
@@ -12,28 +12,29 @@ export class StreamingService implements StreamingServiceType {
   addShow(show: ShowType) {
     this.shows.push(show);
   }
-  getMostViewedShowsOfYear() {
-    const thisYear = new Date().getFullYear();
+  getMostViewedShowsOfYear(year: number) {
     const topShows: Array<any> = [];
-    let sortedShows = new Map(Array.from(this.viewsByShowNames.entries()).sort((a, b) => b[1] - a[1]));
 
-    for (let showName in sortedShows.keys()) {
-      const showIndex = this.shows.indexOf(showName);
-      if (showIndex !== -1 && this.shows[showIndex].releaseDate.getFullYear() === thisYear) {
-        topShows.push(showName);
+    let sortedShows = Array.from(this.viewsByShowNames.entries()).sort((a, b) => b[1] - a[1]);
+
+    for (let i = 0; i < sortedShows.length; i++) {
+      if (this.shows[i].releaseDate.getFullYear() === year) {
+        topShows.push(this.shows[i]);
       }
     }
+
     const lastArrayIndex = topShows.length;
     return lastArrayIndex > 10 ? topShows.slice(0, 10) : topShows.slice(0, lastArrayIndex);
   }
-  getMostViewedShowsOfGenre(genre: string) {
-    const topShows: Array<any> = [];
-    let sortedShows = new Map(Array.from(this.viewsByShowNames.entries()).sort((a, b) => b[1] - a[1]));
 
-    for (let showName in sortedShows.keys()) {
-      const showIndex = this.shows.indexOf(showName);
-      if (showIndex !== -1 && this.shows[showIndex].genre === genre) {
-        topShows.push(showName);
+  getMostViewedShowsOfGenre(genre: string) {
+    const thisYear = new Date().getFullYear();
+    const topShows: Array<AnyShowType> = [];
+    let sortedShows = Array.from(this.viewsByShowNames.entries()).sort((a, b) => b[1] - a[1]);
+
+    for (let i = 0; i < sortedShows.length; i++) {
+      if (this.shows[i].genre === genre && this.shows[i].releaseDate.getFullYear() === thisYear) {
+        topShows.push(this.shows[i]);
       }
     }
     const lastArrayIndex = topShows.length;
