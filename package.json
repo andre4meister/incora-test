@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "systemjs": "^6.12.6",
+    "ts-node": "^10.9.1"
+  }
+}
